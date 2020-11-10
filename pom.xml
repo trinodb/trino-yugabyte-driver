@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.airlift</groupId>
+        <artifactId>airbase</artifactId>
+        <version>103</version>
+    </parent>
+
+    <groupId>io.prestosql.yugabyte</groupId>
+    <artifactId>yugabyte-driver</artifactId>
+    <version>3.6.0-2-SNAPSHOT</version>
+
+    <description>Shaded version of Yugabyte Java Driver for Apache Cassandra</description>
+    <url>https://github.com/prestosql/presto-yugabyte-driver</url>
+
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <!-- see original projects for developer information -->
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/prestosql/presto-yugabyte-driver.git</connection>
+        <url>https://github.com/prestosql/presto-yugabyte-driver</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <properties>
+        <project.build.targetJdk>11</project.build.targetJdk>
+        <shadeBase>io.prestosql.yugabyte.\$internal</shadeBase>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.yugabyte</groupId>
+            <artifactId>cassandra-driver-core</artifactId>
+            <version>3.2.0-yb-19</version>
+            <scope>runtime</scope>
+        </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>19.0</version>
+              <scope>runtime</scope>
+            </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- generate empty Javadoc jar to meet Maven Central requirements -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>javadoc</classifier>
+                            <excludes>
+                                <exclude>**</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createSourcesJar>true</createSourcesJar>
+                            <shadeSourcesContent>true</shadeSourcesContent>
+                            <dependencyReducedPomLocation>${project.build.directory}/pom.xml</dependencyReducedPomLocation>
+                            <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
+                            <artifactSet>
+                                <includes>
+                                    <include>com.yugabyte:cassandra-driver-core</include>
+                                    <include>com.google.guava:guava</include>
+                                    <include>org.ow2.asm:*</include>
+                                    <include>com.github.jnr:*</include>
+                                    <include>io.netty:*</include>
+                                    <include>com.kenai:*</include>
+                                    <include>jnr.ffi:*</include>
+                                    <include>jnr.posix:*</include>
+                                    <include>jnr.constants:*</include>
+                                    <include>jnr.x86asm:*</include>
+                                </includes>
+                            </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.google.common</pattern>
+                                    <shadedPattern>${shadeBase}.com.google.common</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.google.thirdparty</pattern>
+                                    <shadedPattern>${shadeBase}.com.google.thirdparty</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.objectweb</pattern>
+                                    <shadedPattern>${shadeBase}.org.objectweb</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>io.netty</pattern>
+                                    <shadedPattern>${shadeBase}.io.netty</shadedPattern>
+                                </relocation>
+                            </relocations>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/maven/**</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <configuration>
+                        <preparationGoals>clean verify -DskipTests</preparationGoals>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <serverId>ossrh</serverId>
+                        <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <targetJdk>1.11</targetJdk>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+</project>
