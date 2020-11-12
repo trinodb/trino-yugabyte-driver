@@ -10,7 +10,7 @@
 
     <groupId>io.prestosql.yugabyte</groupId>
     <artifactId>yugabyte-driver</artifactId>
-    <version>3.2.0-yb-19-1-SNAPSHOT</version>
+    <version>3.2.0-yb-19-1</version>
 
     <description>Shaded version of Yugabyte Java Driver for Apache Cassandra</description>
     <url>https://github.com/prestosql/presto-yugabyte-driver</url>
@@ -30,7 +30,7 @@
     <scm>
         <connection>scm:git:git://github.com/prestosql/presto-yugabyte-driver.git</connection>
         <url>https://github.com/prestosql/presto-yugabyte-driver</url>
-        <tag>HEAD</tag>
+        <tag>3.2.0-yb-19-1</tag>
     </scm>
 
     <properties>
