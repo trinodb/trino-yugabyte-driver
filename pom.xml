@@ -8,12 +8,12 @@
         <version>103</version>
     </parent>
 
-    <groupId>io.prestosql.yugabyte</groupId>
+    <groupId>io.trino.yugabyte</groupId>
     <artifactId>yugabyte-driver</artifactId>
     <version>3.2.0-yb-19-2-SNAPSHOT</version>
 
     <description>Shaded version of Yugabyte Java Driver for Apache Cassandra</description>
-    <url>https://github.com/prestosql/presto-yugabyte-driver</url>
+    <url>https://github.com/trinodb/trino-yugabyte-driver</url>
 
     <licenses>
         <license>
@@ -28,14 +28,14 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/prestosql/presto-yugabyte-driver.git</connection>
-        <url>https://github.com/prestosql/presto-yugabyte-driver</url>
+        <connection>scm:git:git://github.com/trinodb/trino-yugabyte-driver.git</connection>
+        <url>https://github.com/trinodb/trino-yugabyte-driver</url>
         <tag>HEAD</tag>
     </scm>
 
     <properties>
         <project.build.targetJdk>11</project.build.targetJdk>
-        <shadeBase>io.prestosql.yugabyte.\$internal</shadeBase>
+        <shadeBase>io.trino.yugabyte.\$internal</shadeBase>
     </properties>
 
     <dependencies>
