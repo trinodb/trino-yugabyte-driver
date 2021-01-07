@@ -11,11 +11,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.prestosql.yugabyte;
+package io.trino.yugabyte;
 
 /*
- * This class exists to force the creation of a jar for the presto-yugabyte-driver module.
- * This is needed to deploy the presto-yugabyte-driver module to OSSRH.
+ * This class exists to force the creation of a jar for the trino-yugabyte-driver module.
+ * This is needed to deploy the trino-yugabyte-driver module to OSSRH.
  */
 public class Dummy
 {

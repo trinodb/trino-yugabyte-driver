@@ -1,1 +1,1 @@
-# presto-yugabyte-driver
+# trino-yugabyte-driver
